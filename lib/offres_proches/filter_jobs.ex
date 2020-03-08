@@ -35,6 +35,7 @@ defmodule OffresProches.FilterJobs do
     file
     |> File.stream!()
     |> CSV.decode(separator: ?,, headers: true)
+    |> Stream.map(fn {:ok, map} -> map end)
   end
 
   def filter_datastream_by_location_and_radius(data, {lat, lon}, radius) do
