@@ -5,7 +5,7 @@ defmodule OffresProches.Router do
   alias OffresProches.VerifyRequest
   alias OffresProches.FilterJobs
 
-  plug(Plug.Parsers, parsers: [:urlencoded, :multipart])
+  plug(Plug.Parsers, parsers: [:urlencoded, :multipart], json_decoder: Poison)
   plug(VerifyRequest, fields: ["lat", "lon", "rad"], paths: ["/offres_proches"])
   plug(:match)
   plug(:dispatch)
