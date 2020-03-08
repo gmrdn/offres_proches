@@ -3,6 +3,7 @@ defmodule OffresProches.Router do
   use Plug.ErrorHandler
 
   alias OffresProches.VerifyRequest
+  alias OffresProches.FilterJobs
 
   plug(Plug.Parsers, parsers: [:urlencoded, :multipart])
   plug(VerifyRequest, fields: ["lat", "lon", "rad"], paths: ["/offres_proches"])
@@ -14,7 +15,7 @@ defmodule OffresProches.Router do
   end
 
   get "/offres_proches" do
-    send_resp(conn, 201, "Liste d'offres")
+    send_resp(conn, 201, FilterJobs.get_job_list())
   end
 
   match _ do

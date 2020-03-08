@@ -35,7 +35,6 @@ defmodule OffresProches.RouterTest do
 
       assert conn.state == :sent
       assert conn.status == 201
-      assert conn.resp_body == "Liste d'offres"
     end
   end
 
@@ -56,16 +55,6 @@ defmodule OffresProches.RouterTest do
           |> conn("/offres_proches?param1=10.01&param2=10.03&param3=10", "")
           |> Router.call(@opts)
       end
-    end
-
-    test "No exception when parameters are ok" do
-      conn =
-        :get
-        |> conn("/offres_proches?lat=10.01&lon=10.03&rad=10", "")
-        |> Router.call(@opts)
-
-      assert conn.state == :sent
-      assert conn.status == 201
     end
   end
 end
