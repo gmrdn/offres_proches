@@ -1,26 +1,12 @@
 defmodule OffresProches.FilterJobs do
   use Poison.Encode
 
-  def get_job_list() do
-    Poison.encode!(%{
-      "jobs" => [
-        %{
-          "profession_id" => 7,
-          "contract_type" => "INTERNSHIP",
-          "name" =>
-            "[Louis Vuitton Germany] Praktikant (m/w) im Bereich Digital Retail (E-Commerce)",
-          "office_latitude" => 48.1392154,
-          "office_longitude" => 11.5781413
-        },
-        %{
-          "profession_id" => 5,
-          "contract_type" => "INTERNSHIP",
-          "name" => "Bras droit de la fondatrice",
-          "office_latitude" => 48.885247,
-          "office_longitude" => 2.3566441
-        }
-      ]
-    })
+  def get_job_list({lat, lon}, radius) do
+    './data/technical-test-jobs.csv'
+    |> stream_csv()
+    |> filter_stream_by_location_and_radius({lat, lon}, radius)
+    |> Enum.to_list()
+    |> Poison.encode!()
   end
 
   def calc_distance_km({lat1, lon1}, {lat2, lon2}) do
@@ -38,8 +24,8 @@ defmodule OffresProches.FilterJobs do
     |> Stream.map(fn {:ok, map} -> map end)
   end
 
-  def filter_datastream_by_location_and_radius(data, {lat, lon}, radius) do
-    data
+  def filter_stream_by_location_and_radius(stream, {lat, lon}, radius) do
+    stream
     |> Stream.filter(fn x ->
       is_in_radius(
         {String.to_float(Map.get(x, "office_latitude")),
@@ -48,6 +34,5 @@ defmodule OffresProches.FilterJobs do
         radius
       )
     end)
-    |> Enum.take(3)
   end
 end

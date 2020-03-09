@@ -50,7 +50,7 @@ defmodule OffresProches.FilterJobsTest do
       }
     ]
 
-    assert FilterJobs.filter_datastream_by_location_and_radius(data, @paris, 30) ==
+    assert Enum.take(FilterJobs.filter_stream_by_location_and_radius(data, @paris, 30), 3) ==
              [
                %{
                  "contract_type" => "INTERNSHIP",
