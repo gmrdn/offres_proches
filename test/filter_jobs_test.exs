@@ -2,12 +2,12 @@ defmodule OffresProches.FilterJobsTest do
   use ExUnit.Case, async: true
   alias OffresProches.FilterJobs
 
-  @marseille {43.2805546, 5.2400687}
-  @aix {43.536137, 5.2475193}
-  @paris {48.8589996, 2.2066329}
+  @marseille {"43.2805546", "5.2400687"}
+  @aix {"43.536137", "5.2475193"}
+  @paris {"48.8589996", "2.2066329"}
 
   test "Get a parsable json file" do
-    json = FilterJobs.get_job_list()
+    json = FilterJobs.get_job_list(%{"lat" => "10.01", "lon" => "10.03", "rad" => "10"})
     assert {:ok, parsed} = Poison.Parser.parse(json)
   end
 
@@ -17,14 +17,14 @@ defmodule OffresProches.FilterJobsTest do
   end
 
   test "Should know that Aix is in the radius of Marseille plus 30 km" do
-    assert FilterJobs.is_in_radius(@marseille, @aix, 30) == true
+    assert FilterJobs.is_in_radius(@marseille, @aix, "30") == true
   end
 
   test "Should know that Paris is not in the radius of Marseille plus 30 km" do
-    assert FilterJobs.is_in_radius(@paris, @marseille, 30) == false
+    assert FilterJobs.is_in_radius(@paris, @marseille, "30") == false
   end
 
-  test "Should filter a CSV file by radius" do
+  test "Should filter a CSV file by radius and add the distance" do
     data = [
       %{
         "contract_type" => "INTERNSHIP",
@@ -50,14 +50,15 @@ defmodule OffresProches.FilterJobsTest do
       }
     ]
 
-    assert Enum.take(FilterJobs.filter_stream_by_location_and_radius(data, @paris, 30), 3) ==
+    assert Enum.take(FilterJobs.filter_stream_by_location_and_radius(data, @paris, "30"), 3) ==
              [
                %{
                  "contract_type" => "INTERNSHIP",
                  "name" => "Bras droit de la fondatrice",
                  "office_latitude" => "48.885247",
                  "office_longitude" => "2.3566441",
-                 "profession_id" => "5"
+                 "profession_id" => "5",
+                 "distance" => 16
                }
              ]
   end

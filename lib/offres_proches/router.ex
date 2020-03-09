@@ -15,7 +15,7 @@ defmodule OffresProches.Router do
   end
 
   get "/offres_proches" do
-    send_resp(conn, 201, FilterJobs.get_job_list())
+    send_resp(conn, 201, FilterJobs.get_job_list(conn.query_params))
   end
 
   match _ do
