@@ -1,21 +1,17 @@
 # OffresProches
 
-**TODO: Add description**
+**Petite API pour récupérer les offres dans un rayon donné à partir d'un ensemble d'offres au format csv**
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `offres_proches` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:offres_proches, "~> 0.1.0"}
-  ]
-end
+Démarrer le serveur
+```
+mix run --no-halt
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/offres_proches](https://hexdocs.pm/offres_proches).
+## Installation
 
+Les offres dans un rayon de 20 km de Marseille
+```
+curl -X GET http://localhost:4000/offres_proches?lat=43.2805546&lon=5.2400687&rad=20
+```

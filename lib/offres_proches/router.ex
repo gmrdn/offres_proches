@@ -15,7 +15,9 @@ defmodule OffresProches.Router do
   end
 
   get "/offres_proches" do
-    send_resp(conn, 201, FilterJobs.get_job_list(conn.query_params))
+    conn
+    |> Plug.Conn.put_resp_header("content-type", "application/json; charset=utf-8")
+    |> Plug.Conn.send_resp(201, FilterJobs.get_job_list(conn.query_params))
   end
 
   match _ do
