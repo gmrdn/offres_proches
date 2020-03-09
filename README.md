@@ -9,7 +9,16 @@ Démarrer le serveur
 mix run --no-halt
 ```
 
-## Installation
+## Configuration
+
+Le port du serveur se configure dans ./config/config.exs
+
+## Données
+
+Les données sont à placer dans le fichier ./data/technical-test-jobs.csv
+
+
+## Exemple
 
 Les offres dans un rayon de 20 km de Marseille
 ```
